@@ -30,17 +30,14 @@
                 });
         },
         play: function(item, callback){
-            fetch(item.url)
-                .then(res => res.text())
-                .then(html => {
-                    console.log(html);
-                    const iframeMatch = html.match(/<iframe.*?src="(.*?)"/i);
-                    if (iframeMatch) {
-                        // Часто відео через iframe-плеєр з іншого сайту
+            fetch(`https://uakino-parser.onrender.com/api/uakino?url=${encodeURIComponent(item.url)}`)
+                .then(res => res.json())
+                .then(json => {
+                    if (json.video) {
                         callback([{
-                            file: playerMatch[1],
+                            file: json.video,
                             quality: 'HD',
-                            title: 'UAKino Плеєр',
+                            title: 'UAKino'
                         }]);
                     } else {
                         Lampa.Noty.show('Не знайдено відео');
