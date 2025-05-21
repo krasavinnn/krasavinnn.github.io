@@ -33,14 +33,14 @@
             fetch(item.url)
                 .then(res => res.text())
                 .then(html => {
+                    console.log(html);
                     const iframeMatch = html.match(/<iframe.*?src="(.*?)"/i);
                     if (iframeMatch) {
                         // Часто відео через iframe-плеєр з іншого сайту
                         callback([{
-                            file: iframeMatch[1],
+                            file: playerMatch[1],
                             quality: 'HD',
                             title: 'UAKino Плеєр',
-                            stream: true // повідомляє Lampa що це iframe
                         }]);
                     } else {
                         Lampa.Noty.show('Не знайдено відео');
